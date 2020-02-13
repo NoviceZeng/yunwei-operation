@@ -1,0 +1,53 @@
+open-falcon监控运维文档（数据中心 + .net项目）
+服务分布
+前端（dashboard）、后端、邮件网关都部署在XXXX
+前端访问地址:http://XXXX:8091
+agent部署在所有服务器上
+transfer ACL控制规则用iptables来实现:/etc/sysconfig/iptables
+探针页面:http://agentIP:1988
+目录约定
+dashboard
+程序路径:/data/dashboard/control
+日志:/data/dashboard/var/app.log
+邮件网关: mail-provider
+程序路径:/data/mail-provider/control
+配置文件:/data/mail-provider/cfg.json
+日志:/data/mail-provider/var/app.log
+open-falcon agent及server目录约定
+linux主机
+server主程序路径:/data/open-falcon/open-falcon
+server其他项目程序路径:/data/open-falcon/[项目名称]/bin/
+server配置文件路径:```/data/open-falcon/[项目名称]/config/
+server日志路径:/data/open-falcon/[项目名称]/logs
+agent程序路径:/usr/local/server/falcon-agent/bin/
+agent配置文件路径:/usr/local/server/falcon-agent/config/
+agent日志路径:/tmp/falcon-agent.log
+windows主机
+server程序路径:无
+agent程序路径:C:\falcon-windows-agent\windows-agent.exe或D:\falcon-windows-agent\windows-agent.exe
+agent配置路径:falcon-windows-agent\cfg.json
+agent日志路径:falcon-windows-agent\windows.log
+启动
+server服务器
+启动后端所有服务:cd /data/open-falcon && ./open-falcon start > /dev/null 2>&1
+启动前端所有服务:```cd /data/dashboard && ./control start > /dev/null 2>&1
+启动邮件网关:cd /data/mail-provider && ./control start > /dev/null 2>&1
+agent服务器
+启动agent:cd /usr/local/server/falcon-agent && nohup ./bin/falcon-agent -c ./config/cfg.json >/tmp/falcon-agent.log 2>&1 &
+邮件网关及短信网关api
+
+http://127.0.0.1:4000/sender/mail
+http://api.isms.ihuyi.com/webservice/isms.php?method=Submit
+endpoint列表
+
+参考使用手册:
+http://book.open-falcon.com/zh_0_2/usage/
+linux agent自动部署:
+curl fsSL http://gitlab.sa.evebets.com/open-falcon/plugin/raw/master/scripts/build-falcon-agent.sh | bash -s 自定义主机名
+
+功能
+
+
+
+修改系统时间时区为CST时区、添加ntp服务开启时间同步
+自定义主机名，自动部署安装falcon-linux-agent
